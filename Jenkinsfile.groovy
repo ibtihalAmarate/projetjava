@@ -23,6 +23,7 @@ pipeline {
                 }
             }
         }
+        /*
 
         stage('Docker Build') {
             steps {
@@ -50,6 +51,6 @@ pipeline {
                     sh 'scp -r ./target/* user@remote-server:/path/to/deployment'
                 }
             }
-        }
+        }*/
     }
 }
