@@ -23,13 +23,13 @@ pipeline {
                 }
             }
         }
-        /*
+        
 
-        stage('Docker Build') {
+            stage('Docker Build') {
             steps {
                 script {
                     echo 'Building Docker image'
-                    sh 'docker build -t $DOCKER_IMAGE .' // Construction de l'image Docker
+                    sh 'docker build -t $DOCKER_IMAGE .' // Utilise le Dockerfile pour construire l'image
                 }
             }
         }
@@ -38,11 +38,13 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing Docker image to Docker Hub'
-                    sh 'docker push $DOCKER_IMAGE' // Pousse l'image Docker vers Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                        sh 'docker push $DOCKER_IMAGE'
+                    }
                 }
             }
-        }
-
+            /*
         stage('Deploy to Remote Server') {
             steps {
                 script {
